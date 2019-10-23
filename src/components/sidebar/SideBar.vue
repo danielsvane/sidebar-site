@@ -1,10 +1,8 @@
 <template>
   <div id="sidebar">
-    <Button icon="people">Groups</Button>
-    <Button icon="person">Users</Button>
-    <Button icon="settings">Settings</Button>
-    <Button icon="home">Locations</Button>
-    <Button icon="public">Gates</Button>
+    <Button icon="show_chart" to="/" exact>Dashboard</Button>
+    <Button icon="public" to="/assets">Assets</Button>
+    <Button icon="person" to="/users">Users</Button>
   </div>
 </template>
 
@@ -23,10 +21,10 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 #sidebar {
   box-shadow: 0 0px 5px rgba(0, 0, 0, 0.5);
-  background: #222;
+  background: $dark;
   width: 63px;
   overflow: hidden;
   transition: width .3s;

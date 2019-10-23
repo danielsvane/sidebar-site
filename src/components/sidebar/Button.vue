@@ -1,19 +1,29 @@
 <template>
-  <div class="button">
-    <i class="material-icons icon"> {{ icon }} </i>
-    <div class="button-text">
-      <slot></slot>
+  <router-link :to="to" :exact="exact">
+    <div class="button">
+      <i class="material-icons icon"> {{ icon }} </i>
+      <div class="button-text">
+        <slot></slot>
+      </div>
     </div>
-  </div>
+  </router-link>
 </template>
 
 <script>
 export default {
-  props: ['icon']
+  props: ['icon', 'to', 'exact']
 }
 </script>
 
 <style scoped>
+.router-link-active .button-text {
+  color: #7bce04;
+}
+
+.router-link-active .icon {
+  color: #7bce04;
+}
+
 .button {
   display: flex;
   align-items: center;
