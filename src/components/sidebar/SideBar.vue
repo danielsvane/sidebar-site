@@ -29,7 +29,7 @@ export default {
   overflow: hidden;
   transition: width .3s;
   position: fixed;
-  z-index: 2;
+  z-index: 1000;
   height: 100vh;
 }
 
