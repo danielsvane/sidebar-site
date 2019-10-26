@@ -3,7 +3,7 @@
     <div class="button" @click="createAsset">
       New asset
     </div>
-    <div v-for="(asset, index) in assets" :key="index">
+    <div class="asset" v-for="(asset, index) in assets" :key="index" @click="removeAsset(asset.id)">
       <div :class="{ temporary: asset.id === -1 }">
         {{ asset.brand }} - {{ asset.model }}
       </div>
@@ -12,15 +12,7 @@
 </template>
 
 <script>
-import { GET_ASSETS, CREATE_ASSET, ASSET_ADDED } from '@/queries/assets.js'
-
-// function mergedAssets (assets, newAsset) {
-//   console.log('mergin')
-//   console.log(assets, newAsset)
-//   const exists = assets.some(asset => asset.id === newAsset.id)
-//   if (exists) return assets
-//   else return assets.concat(newAsset)
-// }
+import { GET_ASSETS, CREATE_ASSET, ASSET_ADDED, REMOVE_ASSET } from '@/queries/assets.js'
 
 export default {
   apollo: {
@@ -38,10 +30,27 @@ export default {
     }
   },
   methods: {
+    removeAsset (id) {
+      this.$apollo.mutate({
+        mutation: REMOVE_ASSET,
+        variables: { id },
+        update: (store, { data: { removeAsset } }) => {
+          console.log(id)
+          const data = store.readQuery({ query: GET_ASSETS })
+          store.writeQuery({
+            query: GET_ASSETS,
+            data: {
+              assets: data.assets.filter(asset => asset.id !== id)
+            }
+          })
+        }
+      })
+    },
     createAsset () {
       const asset = {
         brand: 'fuickckck',
-        model: 'jksdfhsjkdfh'
+        model: 'jksdfhsjkdfh',
+        year: 1212
       }
 
       this.$apollo.mutate({
@@ -49,6 +58,7 @@ export default {
         variables: asset,
         update: (store, { data: { addAsset } }) => {
           const data = store.readQuery({ query: GET_ASSETS })
+          if (data.assets.some(asset => asset.id === addAsset.id)) return
           data.assets.push(addAsset)
           store.writeQuery({ query: GET_ASSETS, data })
         },
@@ -79,5 +89,9 @@ export default {
 
 .temporary {
   opacity: 0.5;
+}
+
+.asset:hover {
+  background: #ccc;
 }
 </style>

@@ -23,3 +23,11 @@ export const ASSET_ADDED = gql`subscription {
     model
   }
 }`
+
+export const ASSET_REMOVED = gql`subscription {
+  assetRemoved
+}`
+
+export const REMOVE_ASSET = gql`mutation ($id: ID) {
+  removeAsset(id: $id)
+}`
